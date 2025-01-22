@@ -4,18 +4,6 @@ import sqlite3
 from PyPDF2 import PdfReader
 import json
 
-# Function to get input for page number
-def get_page_number():
-    while True:
-        try:
-            page_number = int(input("Enter the page number to read: "))
-            if page_number <= 0:
-                print("Page number must be greater than 0. Please try again.")
-            else:
-                return page_number - 1
-        except ValueError:
-            print("Invalid input. Please enter a valid page number.")
-
 # Function to load configuration
 def load_config(config_path):
     if not os.path.exists(config_path):
@@ -106,7 +94,7 @@ def extract_and_store_questions(pdf_path, regex_pattern, db_path, flags):
                 page_content = page.extract_text()
 
                 # Extract content matching the regular expression
-                matches = re.finditer(regex_pattern, page_content, flags | re.MULTILINE)
+                matches = re.finditer(regex_pattern, page_content, flags)
 
                 if not matches:
                     print(f"No content matching the regular expression found on page {page_num + 1}.")
@@ -126,9 +114,10 @@ def extract_and_store_questions(pdf_path, regex_pattern, db_path, flags):
 
                         # Store the question data in the database
                         insert_question(db_path, question_text, answer_options, answer, answer_text)
-                        view_questions(db_path)
 
-                    print(f"Processed page {page_num + 1} and stored questions.")
+                    page_num += 1
+            print(f"Processed pages {page_num} and stored questions.")
+            view_questions(db_path)
     except Exception as e:
         print(f"An error occurred while processing the PDF: {e}")
         raise
@@ -155,7 +144,6 @@ else:
         else:
             regex_pattern = config["regex"]
             flags = re.IGNORECASE if config.get("flags", "") == "i" else 0  # Apply case-insensitive flag if specified
-
 
             # Initialize or create the database
             try:

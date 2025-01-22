@@ -1,0 +1,5 @@
+{
+  "question_regex_pattern": "(?P<question>\\d+\\. .*?(?:\\n(?![A-D]\\)).*?)*)\\n(?P<options>(?:[A-D]\\) .+\\n)+)Answer: (?P<answer>[A-D])\\) (?P<answer_text>.+)",
+  "chapter_regex_pattern": "Chapter \\d+: {chapter_name}(.*?)(?=Chapter \\d+:|$)",
+  "flags": "i"
+}

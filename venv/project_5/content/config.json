@@ -1,4 +1,4 @@
 {
-  "regex": "(?P<question>.*?)\\n(?P<options>(?:[A-D]\\) .+\\n)+)Answer: (?P<answer>[A-D])\\) (?P<answer_text>.+)",
+  "regex": "(?P<question>\\d+\\. .*?(?:\\n(?![A-D]\\)).*?)*)\\n(?P<options>(?:[A-D]\\) .+\\n)+)Answer: (?P<answer>[A-D])\\) (?P<answer_text>.+)",
   "flags": "i"
 }
